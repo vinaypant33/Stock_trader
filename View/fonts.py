@@ -1,0 +1,5 @@
+super_large_font  =  ('Arial Black', 22)
+large_font  = ('Arial' , 13)
+medium_font = ('Arial' , 10)
+Small_font  = ('Arial' , 8)
+super_small_font  = ('Arial' , 5)

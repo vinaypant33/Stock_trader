@@ -1,6 +1,11 @@
+#### Importing Pre Made Modules
 import tkinter as tk
 from tkinter import messagebox
 from pubsub import pub
+
+
+#### Importing modules made by the users
+import colors
 
 
 ## Class for the Custom Messagebox
@@ -34,10 +39,10 @@ class Messagebox():
     #### Function calling Completed
     def defining_controls(self):
         self.messagebox.config(background='white')
-        self.upperframe = tk.Frame(self.messagebox , background='#040F16' , height=40)
+        self.upperframe = tk.Frame(self.messagebox , background=colors.dark_grey , height=40)
         self.upperframe.pack_propagate(True)
         self.close_button = tk.Button(self.upperframe , text='X' , relief=tk.FLAT , bd=0 , 
-        highlightthickness=0 , background='#040F16' , activebackground= '#040F16'  , activeforeground= 'red', foreground='red' , command=self.closing_form)
+        highlightthickness=0 , background=colors.color_red , activebackground= colors.dark_grey  , activeforeground= colors.color_red, foreground=colors.white_backgrond , command=self.closing_form)
         self.text = tk.Label(self.messagebox , foreground='black' , background='white' , text="Please Enter the values in the data sheet ")
         ### Control Binding done here  S
         self.upperframe.bind("<ButtonPress-1>" , self.start_move)
