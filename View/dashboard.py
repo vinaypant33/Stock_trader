@@ -9,6 +9,12 @@ import fonts
 
 
 
+
+#### Constants : for the active control and other fixed parts
+## Current page 
+
+
+
 class Dashboard():
 
     def __init__(self) -> None:
@@ -21,6 +27,9 @@ class Dashboard():
         self.ycoordinate  = (self.screen_height //2 ) - (self.height //2 )
         self.xcoordinate  = ( self.screen_width //2 )  -  (self.width //2 )
         self.dashboard.geometry(f"{self.width}x{self.height}+{10}+{20}")
+
+        # Defining Constants 
+        self.sidebar_maximized  =  True
 
     ## Functions for the general work 
     def closing_app(self):
@@ -37,6 +46,49 @@ class Dashboard():
         self.newy = self.dashboard.winfo_y() + self.deltay
         self.dashboard.geometry(f"{self.width}x{self.height}+{self.newx}+{self.newy}")
 
+    ## Functions for hovering Part
+    def open_close_hover_enter(self, event):
+        self.open_close_button.configure(background=colors.avatar_background)
+    
+    def open_close_hover_close(self, event):
+        self.open_close_button.configure(background=colors.black_color)
+    
+    def home_button_enter(self, event):
+        self.home_button.configure(background=colors.sky_blue)
+    
+    def home_button_leave(self, enter):
+        self.home_button.configure(background=colors.color_red)
+    
+    def settings_button_enter(self, event):
+        self.settings_button.configure(background=colors.sky_blue)
+    
+    def settings_button_leave(self, event):
+        self.settings_button.configure(background=colors.color_red)
+
+    def history_button_enter(self, event):
+        self.history_button.configure(background=colors.sky_blue)
+    
+    def history_button_leave(self , event):
+        self.history_button.configure(background=colors.color_red)
+
+    # Function to maximize and minimize the sidebar
+    def sidebar_max_min(self):
+        # if self.sidebar_maximized == True:
+        #     messagebox.showinfo("sdf" , "sdffsds")
+        #     self.sidebar_maximized = False
+        # elif self.sidebar_maximized == False:
+        #     messagebox.showerror("sdf" , "I am not working")
+        if self.sidebar_maximized == False:
+            self.sidebar.configure(width=150)
+            self.sidebar_maximized = True
+            self.open_close_button.place(x =111 , y = 2)
+        elif self.sidebar_maximized == True:
+            self.sidebar_maximized = False
+            self.sidebar.configure(width=71)
+            self.open_close_button.place(x=30 , y=2 )
+            self.home_button.config(width=7)
+            self.home_button.place(x=0 , y=50)
+
     def defining_controls(self):
         ## Defining frames - for the controls
         self.dashboard.configure(background=colors.white_backgrond)
@@ -48,37 +100,40 @@ class Dashboard():
         
         self.control_frame.propagate(1)
 
-       ### Defining the sidebar from here 
+        ### Defining the sidebar from here 
         self.sidebar = tk.Frame(self.dashboard , background=colors.sky_blue, width=150 , height=676)
-        self.sidebar.pack_propagate(1)
+        self.sidebar.pack_propagate(0)
+
         #### Width 100 and height 676 would be chnaged in the main function and also
+        self.open_close_button   =tk.Button(self.sidebar , text="+==+" , bd = 0 , activebackground=colors.sky_blue , activeforeground=colors.white_backgrond , foreground=colors.color_red , background=colors.dark_grey , height=1 , command=self.sidebar_max_min)
+        self.home_button  = tk.Button(self.sidebar , text="Home", font=fonts.large_font , background=colors.color_red , activebackground=colors.some_dark_blue , relief=tk.SUNKEN , bd=0 , foreground=colors.white_backgrond , height=1 , width=16
+                                      ,activeforeground='white' , command=self.sidebar_max_min)
+        self.settings_button  =tk.Button(self.sidebar , text="Settings", font=fonts.large_font , background=colors.color_red , activebackground=colors.some_dark_blue , relief=tk.SUNKEN , bd=0 , foreground=colors.white_backgrond , height=1 , width=16
+                                      ,activeforeground='white')
+        self.history_button = tk.Button(self.sidebar , text="History" , bd=0 , activebackground=colors.some_dark_blue , activeforeground=colors.white_backgrond , background=colors.color_red
+                                        ,relief=tk.SUNKEN , height=1 , width=16 , font=fonts.large_font , foreground=colors.white_backgrond)
         
-        self.home_button  = tk.Button(self.sidebar , text="Home")
-        self.settings_button  =tk.Button(self.sidebar , text="Settings")
-        self.history_button = tk.Button(self.sidebar , text="History")
-
-
-
-        
-
-        
-
+        ### Binding buttons for the hovering part
+        self.open_close_button.bind("<Enter>" , self.open_close_hover_enter)
+        self.open_close_button.bind("<Leave>" , self.open_close_hover_close)
+        self.home_button.bind("<Enter>" , self.home_button_enter)
+        self.home_button.bind("<Leave>" , self.home_button_leave)
+        self.settings_button.bind("<Enter>" , self.settings_button_enter)
+        self.settings_button.bind("<Leave>" , self.settings_button_leave)
+        self.history_button.bind("<Enter>" , self.history_button_enter)
+        self.history_button.bind("<Leave>" , self.history_button_leave)
 
 
     def placing_controls(self):
         self.control_frame.pack(side='top' , pady=0 , fill='x')
-        self.control_button.pack(side='right' , padx=0 , pady=1)
-        # self.sidebar.pack(side="left" , fill="y")
         self.sidebar.place(x=0 , y=24)
-
-        self.home_button.place(x=0,y=100)
-        self.settings_button.place(x = 10 , y = 10)
-        self.history_button.place(x = 0 , y=100)
-
-
+        self.control_button.pack(side='right' , padx=0 , pady=1)
+        self.open_close_button.place(x =111 , y = 2)
+        self.home_button.place(x=0,y=50)
+        self.settings_button.place(x = 0 , y = 80)
+        self.history_button.place(x = 0 , y=110)
         # Calling the main app
         self.dashboard.mainloop()
-
 
 
 
